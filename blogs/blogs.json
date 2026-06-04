@@ -1,0 +1,14 @@
+{
+  "repo": "western",
+  "feeds": [
+    {
+      "source": "https://news.westernu.ca/",
+      "feed_url": "https://news.westernu.ca/feed/",
+      "title": "Western News",
+      "saved": 0,
+      "method": "none"
+    }
+  ],
+  "post_count": 0,
+  "fetched": "2026-06-03T00:00:00Z"
+}

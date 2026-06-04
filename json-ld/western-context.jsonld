@@ -1,0 +1,58 @@
+{
+  "@context": {
+    "schema": "https://schema.org/",
+    "western": "https://uwo.scholaris.ca/server/api/vocab#",
+    "name": "schema:name",
+    "url": "schema:url",
+    "description": "schema:description",
+    "logo": "schema:logo",
+    "sameAs": "schema:sameAs",
+    "identifier": "schema:identifier",
+    "handle": {
+      "@id": "western:handle"
+    },
+    "uuid": {
+      "@id": "schema:identifier"
+    },
+    "type": {
+      "@id": "@type"
+    },
+    "metadata": {
+      "@id": "western:metadata"
+    },
+    "archivedItemsCount": {
+      "@id": "western:archivedItemsCount",
+      "@type": "schema:Integer"
+    },
+    "community": {
+      "@id": "schema:CreativeWorkSeries"
+    },
+    "collection": {
+      "@id": "schema:Collection"
+    },
+    "item": {
+      "@id": "schema:CreativeWork"
+    },
+    "title": "schema:name",
+    "dateAvailable": {
+      "@id": "schema:datePublished",
+      "@type": "schema:Date"
+    }
+  },
+  "@type": "schema:CollegeOrUniversity",
+  "@id": "https://www.uwo.ca/",
+  "name": "Western University",
+  "url": "https://www.uwo.ca/",
+  "description": "Western University is a public research university in London, Ontario, Canada. Its public, machine-readable developer footprint is centered on Western Libraries' institutional repository, Scholarship@Western, hosted on the national Scholaris (DSpace 8) service operated by Scholars Portal, which exposes a live DSpace REST (HAL+JSON) API and an OAI-PMH 2.0 metadata harvesting endpoint.",
+  "sameAs": [
+    "https://ca.linkedin.com/school/westernuniversity/",
+    "https://x.com/westernu",
+    "https://uwo.scholaris.ca/home"
+  ],
+  "schema:department": {
+    "@type": "schema:Organization",
+    "name": "Western University's Open Repository (Scholarship@Western)",
+    "url": "https://uwo.scholaris.ca/home",
+    "description": "DSpace 8.3 institutional repository hosted on the national Scholaris service by Scholars Portal, exposing communities, collections, items, and bitstreams via a HAL+JSON REST API and OAI-PMH 2.0."
+  }
+}
