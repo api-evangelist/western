@@ -1,0 +1,58 @@
+---
+name: Western University
+description: Western University public developer/API footprint review for APIs.json cataloging.
+url: https://raw.githubusercontent.com/api-evangelist/western/refs/heads/main/review.yml
+created: '2026-06-03'
+modified: '2026-06-03'
+reviews:
+  - date: '2026-06-03'
+    rating: 2
+    summary: >-
+      Western University has a modest but genuine public API footprint, concentrated in
+      Western Libraries. The institutional repository Scholarship@Western migrated in 2025
+      to Scholaris, a national shared DSpace 8.3 service; its REST API root and OAI-PMH
+      endpoint both resolve live (the REST root returns a HAL document confirming "DSpace 8.3 /
+      Western University's Open Repository", and OAI Identify returns valid XML). Western
+      Technology Services documents an institutional SSO supporting SAML2/OAuth/OIDC/CAS, but
+      it is affiliation-gated rather than self-service. No official open course/timetable or
+      open-data API exists; timetable data is documented only as scrape targets, with an
+      unofficial third-party API on GitHub. There is no official Western GitHub organization
+      (the "uwo" GitHub account is an unrelated personal user). Ratings, endpoints, and
+      properties reflect only what was verified live, with no fabricated endpoints.
+    endpoints:
+      - url: https://www.uwo.ca/
+        status: 200
+        note: Official institution website resolves.
+      - url: https://uwo.scholaris.ca/home
+        status: 200
+        note: Western's Open Repository (Scholaris/DSpace) home resolves.
+      - url: https://uwo.scholaris.ca/server/api
+        status: 200
+        note: DSpace 8.3 REST (HAL) API root, publicly readable.
+      - url: https://uwo.scholaris.ca/server/oai/request?verb=Identify
+        status: 200
+        note: OAI-PMH 2.0 endpoint returns valid Identify XML.
+      - url: https://uwo.scholaris.ca/server/api/core/items
+        status: 401
+        note: Core items endpoint requires authentication.
+      - url: https://uwo.scholaris.ca/oai/request?verb=Identify
+        status: 404
+        note: OAI not at root path; correct path is under /server/oai.
+      - url: https://ir.lib.uwo.ca/
+        status: 200
+        note: Legacy Scholarship@Western IR site, now pointing to Scholaris.
+      - url: https://www.lib.uwo.ca/
+        status: 200
+        note: Western Libraries site resolves.
+      - url: https://wts.uwo.ca/services/o/single-sign-on-sso-saml2-oauth-oidc-cas/index.html
+        status: 200
+        note: WTS SSO service catalogue (SAML2/OAuth/OIDC/CAS); request-based, gated.
+      - url: https://ssocas.uwo.ca/cas/login
+        status: 200
+        note: CAS web login endpoint resolves.
+      - url: https://studentservices.uwo.ca/secure/timetables/mastertt/ttindex.cfm
+        status: 200
+        note: Undergraduate timetable; no official API, scrape-only.
+      - url: https://westerncalendar.uwo.ca/
+        status: 200
+        note: Academic Calendar; no documented public API.

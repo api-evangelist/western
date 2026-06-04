@@ -1,0 +1,96 @@
+---
+aid: western
+name: Western University
+description: >-
+  Western University is a public research university in London, Ontario, Canada,
+  ranked #120 in the QS World University Rankings 2025. Its public, machine-readable
+  developer footprint is centered on Western Libraries: the institutional repository
+  Scholarship@Western migrated in 2025 to Scholaris, a national shared DSpace 8 service
+  hosted by Scholars Portal, which exposes a live DSpace REST API and an OAI-PMH metadata
+  harvesting endpoint. Western Technology Services also operates an institutional
+  Single Sign-On service supporting SAML2, OAuth, OpenID Connect, and CAS, but it is
+  gated behind institutional affiliation rather than self-service. Western does not
+  publish an official open course/timetable or open-data API; timetable data is
+  documented only as scrape targets and via unofficial third-party projects.
+type: Index
+position: Consumer
+access: 3rd-Party
+image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+url: https://raw.githubusercontent.com/api-evangelist/western/refs/heads/main/apis.yml
+tags:
+  - Education
+  - Higher Education
+  - University
+  - Canada
+  - Library
+  - Institutional Repository
+  - Open Access
+  - Identity
+created: '2026-06-03'
+modified: '2026-06-03'
+specificationVersion: '0.19'
+apis:
+  - aid: western:scholaris-rest
+    name: Scholaris (Scholarship@Western) DSpace REST API
+    description: >-
+      DSpace 8.3 REST (HAL) API for Western University's Open Repository, Scholarship@Western,
+      hosted on the national Scholaris service by Scholars Portal. Exposes communities,
+      collections, items, bitstreams, and discovery search over Western's theses,
+      dissertations, conference proceedings, and other scholarly outputs. The API root
+      is publicly readable; some core endpoints require authentication for write or
+      protected access.
+    humanURL: https://uwo.scholaris.ca/home
+    baseURL: https://uwo.scholaris.ca/server/api
+    tags: [ Library, Institutional Repository, Open Access, DSpace, Repository ]
+    properties:
+      - type: Documentation
+        url: https://uwo.scholaris.ca/home
+      - type: Documentation
+        url: https://uwo.scholaris.ca/server/api
+  - aid: western:scholaris-oai
+    name: Scholarship@Western OAI-PMH
+    description: >-
+      OAI-PMH 2.0 metadata harvesting endpoint for Western University's Open Repository
+      (DSpace 8 on Scholaris). Supports the standard OAI verbs (Identify, ListRecords,
+      ListSets, GetRecord, etc.) for third-party harvesting and discovery of Western's
+      institutional repository metadata.
+    humanURL: https://uwo.scholaris.ca/home
+    baseURL: https://uwo.scholaris.ca/server/oai/request
+    tags: [ Library, Institutional Repository, OAI-PMH, Open Access, Metadata Harvesting ]
+    properties:
+      - type: Documentation
+        url: https://ir.lib.uwo.ca/about.html
+      - type: Documentation
+        url: https://uwo.scholaris.ca/server/oai/request?verb=Identify
+  - aid: western:sso
+    name: Western Single Sign-On (SAML2 / OAuth / OIDC / CAS)
+    description: >-
+      Western Technology Services operates an institutional Single Sign-On service
+      supporting SAML2, OAuth, OpenID Connect (OIDC), and CAS for authenticating users
+      against their Western institutional account. Integration is request-based via WTS
+      and gated behind institutional affiliation rather than open self-service registration.
+    humanURL: https://wts.uwo.ca/services/o/single-sign-on-sso-saml2-oauth-oidc-cas/index.html
+    tags: [ Identity, Authentication, SSO, SAML, OAuth, OpenID Connect, CAS ]
+    properties:
+      - type: Documentation
+        url: https://wts.uwo.ca/services/o/single-sign-on-sso-saml2-oauth-oidc-cas/index.html
+common:
+  - type: Website
+    url: https://www.uwo.ca/
+  - type: LinkedIn
+    url: https://ca.linkedin.com/school/westernuniversity/
+  - type: Twitter
+    url: https://x.com/westernu
+  - type: Authentication
+    url: https://wts.uwo.ca/services/o/single-sign-on-sso-saml2-oauth-oidc-cas/index.html
+  - type: Plans
+    url: plans/western-plans-pricing.yml
+  - type: RateLimits
+    url: rate-limits/western-rate-limits.yml
+  - type: FinOps
+    url: finops/western-finops.yml
+  - type: Review
+    url: review.yml
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com
