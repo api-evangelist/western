@@ -75,6 +75,8 @@ apis:
       - type: Documentation
         url: https://wts.uwo.ca/services/o/single-sign-on-sso-saml2-oauth-oidc-cas/index.html
 common:
+  - type: DomainSecurity
+    url: security/western-domain-security.yml
   - type: Website
     url: https://www.uwo.ca/
   - type: LinkedIn
