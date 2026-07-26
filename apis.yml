@@ -1,4 +1,3 @@
----
 aid: western
 name: Western University
 description: >-
@@ -13,9 +12,21 @@ description: >-
   publish an official open course/timetable or open-data API; timetable data is
   documented only as scrape targets and via unofficial third-party projects.
 type: Index
+accessModel:
+  pricing: free
+  onboarding: unknown
+  trial: false
+  try_now: false
+  public: false
+  label: Free
+  confidence: medium
+  source:
+    - plans
+  generated: '2026-07-22'
+  method: derived
 position: Consumer
 access: 3rd-Party
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/western.png
 url: https://raw.githubusercontent.com/api-evangelist/western/refs/heads/main/apis.yml
 tags:
   - Education
@@ -27,7 +38,7 @@ tags:
   - Open Access
   - Identity
 created: '2026-06-03'
-modified: '2026-06-03'
+modified: '2026-07-25'
 specificationVersion: '0.19'
 apis:
   - aid: western:scholaris-rest
@@ -41,27 +52,12 @@ apis:
       protected access.
     humanURL: https://uwo.scholaris.ca/home
     baseURL: https://uwo.scholaris.ca/server/api
-    tags: [ Library, Institutional Repository, Open Access, DSpace, Repository ]
+    tags: [Library, Institutional Repository, Open Access, DSpace, Repository]
     properties:
       - type: Documentation
         url: https://uwo.scholaris.ca/home
       - type: Documentation
         url: https://uwo.scholaris.ca/server/api
-  - aid: western:scholaris-oai
-    name: Scholarship@Western OAI-PMH
-    description: >-
-      OAI-PMH 2.0 metadata harvesting endpoint for Western University's Open Repository
-      (DSpace 8 on Scholaris). Supports the standard OAI verbs (Identify, ListRecords,
-      ListSets, GetRecord, etc.) for third-party harvesting and discovery of Western's
-      institutional repository metadata.
-    humanURL: https://uwo.scholaris.ca/home
-    baseURL: https://uwo.scholaris.ca/server/oai/request
-    tags: [ Library, Institutional Repository, OAI-PMH, Open Access, Metadata Harvesting ]
-    properties:
-      - type: Documentation
-        url: https://ir.lib.uwo.ca/about.html
-      - type: Documentation
-        url: https://uwo.scholaris.ca/server/oai/request?verb=Identify
   - aid: western:sso
     name: Western Single Sign-On (SAML2 / OAuth / OIDC / CAS)
     description: >-
@@ -70,7 +66,7 @@ apis:
       against their Western institutional account. Integration is request-based via WTS
       and gated behind institutional affiliation rather than open self-service registration.
     humanURL: https://wts.uwo.ca/services/o/single-sign-on-sso-saml2-oauth-oidc-cas/index.html
-    tags: [ Identity, Authentication, SSO, SAML, OAuth, OpenID Connect, CAS ]
+    tags: [Identity, Authentication, SSO, SAML, OAuth, OpenID Connect, CAS]
     properties:
       - type: Documentation
         url: https://wts.uwo.ca/services/o/single-sign-on-sso-saml2-oauth-oidc-cas/index.html
@@ -93,6 +89,8 @@ common:
     url: finops/western-finops.yml
   - type: Review
     url: review.yml
+  - type: About
+    url: https://uwo.scholaris.ca/home
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
