@@ -39,7 +39,7 @@ tags:
   - Identity
 created: '2026-06-03'
 modified: '2026-07-25'
-specificationVersion: '0.19'
+specificationVersion: '0.23'
 apis:
   - aid: western:scholaris-rest
     name: Scholaris (Scholarship@Western) DSpace REST API
