@@ -66,7 +66,21 @@ apis:
       against their Western institutional account. Integration is request-based via WTS
       and gated behind institutional affiliation rather than open self-service registration.
     humanURL: https://wts.uwo.ca/services/o/single-sign-on-sso-saml2-oauth-oidc-cas/index.html
-    tags: [Identity, Authentication, SSO, SAML, OAuth, OpenID Connect, CAS]
+    tags:
+    - Identity
+    - Authentication
+    - SSO
+    - SAML
+    - OpenID Connect
+    - CAS
+    tags_raw:
+    - Identity
+    - Authentication
+    - SSO
+    - SAML
+    - OAuth
+    - OpenID Connect
+    - CAS
     properties:
       - type: Documentation
         url: https://wts.uwo.ca/services/o/single-sign-on-sso-saml2-oauth-oidc-cas/index.html
