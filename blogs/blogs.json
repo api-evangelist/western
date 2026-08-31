@@ -2,13 +2,27 @@
   "repo": "western",
   "feeds": [
     {
+      "source": "https://news.westernu.ca/feed/",
+      "feed_url": "https://news.westernu.ca/feed/",
+      "title": "",
+      "saved": 0,
+      "method": "feed"
+    },
+    {
+      "source": "https://x.com/westernu",
+      "feed_url": "https://x.com/westernu",
+      "title": "",
+      "saved": 0,
+      "method": "none"
+    },
+    {
       "source": "https://news.westernu.ca/",
       "feed_url": "https://news.westernu.ca/feed/",
-      "title": "Western News",
-      "saved": 5,
-      "method": "none"
+      "title": "",
+      "saved": 0,
+      "method": "discovered"
     }
   ],
-  "post_count": 57,
-  "fetched": "2026-08-22T20:08:02Z"
+  "post_count": 65,
+  "fetched": "2026-08-30T22:33:40Z"
 }

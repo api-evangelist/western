@@ -1,22 +1,38 @@
 aid: western
 name: Western University
+x-type: university
+x-category: Public Research University
 description: >-
-  Western University is a public research university in London, Ontario, Canada,
-  ranked #120 in the QS World University Rankings 2025. Its public, machine-readable
-  developer footprint is centered on Western Libraries: the institutional repository
-  Scholarship@Western migrated in 2025 to Scholaris, a national shared DSpace 8 service
-  hosted by Scholars Portal, which exposes a live DSpace REST API and an OAI-PMH metadata
-  harvesting endpoint. Western Technology Services also operates an institutional
-  Single Sign-On service supporting SAML2, OAuth, OpenID Connect, and CAS, but it is
-  gated behind institutional affiliation rather than self-service. Western does not
-  publish an official open course/timetable or open-data API; timetable data is
-  documented only as scrape targets and via unofficial third-party projects.
+  Western University is a public research university in London, Ontario, Canada, ranked #120
+  in the QS World University Rankings order used by this cohort. Like almost every university,
+  Western is a federation of buyers rather than an API producer: it runs no developer portal,
+  no institutional API gateway (api.uwo.ca and developer.uwo.ca do not resolve), publishes no
+  OpenAPI for anything, and serves no llms.txt or security.txt. What it genuinely operates is
+  identity. Western Technology Services runs a Shibboleth Identity Provider, entityID
+  https://shibidp.uwo.ca/idp/shibboleth, registered in the Canadian Access Federation since
+  2012 under CANARIE and exported to eduGAIN, declaring the REFEDS Research and Scholarship
+  entity category and Sirtfi assurance — machine-readable SAML 2.0 metadata that is the single
+  most consequential surface Western publishes. Alongside it runs an Apereo CAS server at
+  ssocas.uwo.ca with a live CAS 3.0 validation endpoint and a second SAML descriptor whose
+  entityID is still the stock Apereo placeholder. Both are end-user login federations, not
+  developer authorization surfaces; OIDC is advertised by WTS but its discovery document
+  returns 403. Western's two readable data surfaces are tenancies, not engineering:
+  Scholarship@Western moved in 2025 to Scholaris, the national shared DSpace 8.4 service run
+  by Scholars Portal (OCUL), exposing a HAL REST API and a conformant OAI-PMH 2.0 provider
+  across thirteen metadata formats at uwo.scholaris.ca; and Western's research data lives in a
+  1,504-dataset collection on Borealis, the Canadian Dataverse Repository, minting DataCite
+  DOIs on Scholars Portal's 10.5683 prefix. Library discovery is an Ex Libris Primo VE view on
+  OCUL's shared platform. All four are recorded here as tenant relationships and deliberately
+  not credited as Western engineering. There is no official course, timetable or open-data API:
+  the academic calendar at westerncalendar.uwo.ca blocks every AI and search crawler in
+  robots.txt, the undergraduate timetable is scrape-only, and the only APIs over that data are
+  unofficial student projects on GitHub that Western does not endorse.
 type: Index
 deliveryModel:
   model: saas
   open_source: false
   commercial: true
-  callable_host: false
+  callable_host: true
   label: Hosted service · you call their endpoint
   confidence: medium
   source:
@@ -40,72 +56,312 @@ access: 3rd-Party
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/western.png
 url: https://raw.githubusercontent.com/api-evangelist/western/refs/heads/main/apis.yml
 tags:
-  - Education
-  - Higher Education
   - University
+  - Higher Education
+  - Education
+  - Research
   - Canada
-  - Library
-  - Institutional Repository
+  - Ontario
+  - U15
+  - Identity Federation
+  - Research Repository
+  - Research Data
   - Open Access
-  - Identity
+  - OAI-PMH
+  - Library
 created: '2026-06-03'
-modified: '2026-07-25'
+modified: '2026-08-30'
 specificationVersion: '0.23'
+x-coverage:
+  state: covered
+  reason: covered
+  detail: >-
+    Every surface on this profile was settled on the operator axis by live probe on 2026-08-30
+    before anything was saved, and the operator axis is the whole finding. Western operates
+    exactly one class of machine-readable surface itself — identity — and it was missing from
+    the June 2026 profile entirely: a Shibboleth IdP registered in the Canadian Access
+    Federation aggregate (202 entities, exactly one uwo.ca entityID) and exported to eduGAIN,
+    plus a live CAS 3.0 validation endpoint and a CAS-emitted SAML descriptor. Everything else
+    readable is a tenancy — Scholaris (Scholars Portal DSpace), Borealis (Scholars Portal
+    Dataverse) and Omni (Ex Libris Primo VE on OCUL) — recorded as relationships with
+    x-operator tenant, with no vendor contract saved under Western's slug. No OpenAPI exists
+    for any of it and none was generated. Deliberate exclusions, each with a reason:
+    api.uwo.ca and developer.uwo.ca do not resolve; data.uwo.ca resolves but redirects to the
+    Office of Institutional Planning and Budgeting, an HTML dashboard site with no API, so it
+    is not recorded as an OpenData surface; the GitHub organisations western-university and
+    uwo-ca both exist but hold zero public repositories and carry no name, email, blog or
+    location, so neither can be attributed to Western and no GitHubOrganization pointer is
+    emitted; the unofficial timetable APIs (cbaron3/uwo-tt-api, shrumit/Western-Timetable-Maker)
+    are student projects on non-Western domains with no institutional endorsement and are not
+    credited. The one thing that could not be read is OIDC: WTS advertises it, but the
+    discovery document and JWKS both return 403.
+  evidence:
+  - url: https://caf-shib2ops.ca/CoreServices/caf_metadata_signed_sha256.xml
+    status: 200
+  - url: https://ssocas.uwo.ca/cas/idp/metadata
+    status: 200
+  - url: https://ssocas.uwo.ca/cas/p3/serviceValidate
+    status: 200
+  - url: https://uwo.scholaris.ca/server/oai/request?verb=Identify
+    status: 200
+  - url: https://uwo.scholaris.ca/server/api
+    status: 200
+  - url: https://borealisdata.ca/api/dataverses/westernu
+    status: 200
+  - url: https://ssocas.uwo.ca/cas/oidc/.well-known/openid-configuration
+    status: 403
+  - url: https://www.uwo.ca/llms.txt
+    status: 404
+  - url: https://api.uwo.ca/
+    status: 0
+  checked: '2026-08-30'
 apis:
-  - aid: western:scholaris-rest
-    name: Scholaris (Scholarship@Western) DSpace REST API
+  - aid: western:identity-federation
+    name: Western University Shibboleth Identity Provider (SAML 2.0 metadata)
     description: >-
-      DSpace 8.3 REST (HAL) API for Western University's Open Repository, Scholarship@Western,
-      hosted on the national Scholaris service by Scholars Portal. Exposes communities,
-      collections, items, bitstreams, and discovery search over Western's theses,
-      dissertations, conference proceedings, and other scholarly outputs. The API root
-      is publicly readable; some core endpoints require authentication for write or
-      protected access.
-    humanURL: https://uwo.scholaris.ca/home
-    baseURL: https://uwo.scholaris.ca/server/api
-    tags: [Library, Institutional Repository, Open Access, DSpace, Repository]
+      Western's institutional identity provider, publishing machine-readable SAML 2.0 metadata
+      through the Canadian Access Federation. entityID https://shibidp.uwo.ca/idp/shibboleth,
+      mdui:DisplayName "University of Western Ontario", shibmd:Scope uwo.ca,
+      registrationAuthority http://www.canarie.ca, registered 2012-01-01. Declares the REFEDS
+      Research and Scholarship entity category and asserts REFEDS Sirtfi, and is exported to
+      eduGAIN in CAF's interfederation aggregate. SSO endpoints are declared for HTTP-POST,
+      HTTP-POST-SimpleSign and HTTP-Redirect, with SOAP artifact resolution and attribute query
+      on port 8443. This is institution-operated by definition, it is the most consequential
+      machine-readable surface Western runs, and it was absent from the June 2026 profile.
+    humanURL: https://wts.uwo.ca/services/o/single-sign-on-sso-saml2-oauth-oidc-cas/index.html
+    baseURL: https://caf-shib2ops.ca/CoreServices/caf_metadata_signed_sha256.xml
+    x-entity-id: https://shibidp.uwo.ca/idp/shibboleth
+    x-entity-id-note: >-
+      The entityID is a SAML identifier, not a document location, and returns HTTP 404 when
+      fetched. That is normal Shibboleth behaviour: Western's metadata is published through the
+      Canadian Access Federation aggregate, which is what baseURL points at. It is recorded here
+      as x-entity-id rather than as a pointer so it is never graded as a dead link.
+    tags:
+    - Identity Federation
+    - SAML
+    - Shibboleth
+    - eduGAIN
+    - CANARIE
+    - Single Sign-On
+    x-operator: institution
+    x-operator-evidence: >-
+      Entity is under Western's own registrable domain (uwo.ca), self-asserts "University of
+      Western Ontario" as its display name, and is registered by CANARIE in the Canadian Access
+      Federation aggregate as the only uwo.ca entity present.
+    x-developer-usable: false
+    x-developer-note: >-
+      An end-user login federation, not a developer authorization surface. There is no client
+      registration path, no token endpoint and no consent screen an outside developer could
+      integrate against; service-provider registration runs through CAF or a WTS request.
     properties:
       - type: Documentation
-        url: https://uwo.scholaris.ca/home
-      - type: Documentation
-        url: https://uwo.scholaris.ca/server/api
-  - aid: western:sso
-    name: Western Single Sign-On (SAML2 / OAuth / OIDC / CAS)
+        url: https://wts.uwo.ca/services/o/single-sign-on-sso-saml2-oauth-oidc-cas/index.html
+      - type: Examples
+        url: examples/western-shibboleth-idp-caf-metadata-example.xml
+      - type: Authentication
+        url: authentication/western-authentication.yml
+      - type: Conformance
+        url: conformance/western-conformance.yml
+      - type: Federation
+        url: https://caf-shib2ops.ca/CoreServices/caf_metadata_signed_sha256.xml
+  - aid: western:sso-cas
+    name: Western Single Sign-On (Apereo CAS — CAS 3.0, SAML2, OIDC)
     description: >-
-      Western Technology Services operates an institutional Single Sign-On service
-      supporting SAML2, OAuth, OpenID Connect (OIDC), and CAS for authenticating users
-      against their Western institutional account. Integration is request-based via WTS
-      and gated behind institutional affiliation rather than open self-service registration.
+      Western Technology Services operates an Apereo CAS server at ssocas.uwo.ca. The CAS 3.0
+      protocol is publicly reachable — /cas/p3/serviceValidate returns a well-formed
+      cas:serviceResponse to an anonymous request — and the server also emits a SAML 2.0
+      IdP descriptor at /cas/idp/metadata (HTTP 200, IDPSSODescriptor, shibmd:Scope uwo.ca,
+      signing certificate CN=ssocas.uwo.ca valid to 2045), and exposes a Spring Boot actuator
+      link document at /cas/actuator. OIDC is advertised in the WTS service catalogue but its
+      discovery document and JWKS both return 403, so no OIDC surface is publicly usable.
+      Integration is request-based through WTS and gated behind institutional affiliation
+      rather than open self-service registration.
     humanURL: https://wts.uwo.ca/services/o/single-sign-on-sso-saml2-oauth-oidc-cas/index.html
+    baseURL: https://ssocas.uwo.ca/cas
     tags:
     - Identity
     - Authentication
     - SSO
     - SAML
-    - OpenID Connect
     - CAS
-    tags_raw:
-    - Identity
-    - Authentication
-    - SSO
-    - SAML
-    - OAuth
     - OpenID Connect
-    - CAS
+    x-operator: institution
+    x-operator-evidence: >-
+      Host ssocas.uwo.ca is under Western's own registrable domain and the TLS and SAML signing
+      certificates are both issued to CN=ssocas.uwo.ca.
+    x-developer-usable: false
+    x-developer-note: >-
+      Documented but affiliation-gated. No self-serve client registration, no published scopes,
+      no token endpoint reachable anonymously.
+    x-caveat: >-
+      The SAML descriptor served here carries the stock Apereo CAS placeholder entityID
+      https://cas.example.org/idp. It is live and correctly scoped to uwo.ca, but the entityID
+      was never configured and this is not the entity registered in the federation.
     properties:
       - type: Documentation
         url: https://wts.uwo.ca/services/o/single-sign-on-sso-saml2-oauth-oidc-cas/index.html
+      - type: Authentication
+        url: authentication/western-authentication.yml
+      - type: Conformance
+        url: conformance/western-conformance.yml
+  - aid: western:scholaris-rest
+    name: Scholarship@Western on Scholaris — DSpace REST API (tenant)
+    description: >-
+      The HAL+JSON REST API of Western University's Open Repository, reachable anonymously at
+      https://uwo.scholaris.ca/server/api. The root document self-reports dspaceName "Western
+      University's Open Repository" and dspaceVersion "DSpace 8.4"; /server/api/core/communities
+      returns 200 while /server/api/core/items returns 401, so the surface is genuinely
+      access-controlled rather than uniformly open. Recorded as a tenant relationship: Western
+      owns the content, the DOIs and the admin contact (rsclib@uwo.ca), but the host is
+      Scholaris — the national shared DSpace 8 service operated by Scholars Portal for the
+      Ontario Council of University Libraries — and the contract shape is upstream DSpace's. No
+      specification is saved here for that reason; saving a generic DSpace spec under an
+      institution's slug is precisely the misattribution this profile exists to avoid.
+    humanURL: https://uwo.scholaris.ca/home
+    baseURL: https://uwo.scholaris.ca/server/api
+    tags:
+    - Research Repository
+    - Institutional Repository
+    - DSpace
+    - REST
+    - HAL
+    - Open Access
+    x-operator: tenant
+    x-operator-evidence: >-
+      Institution-specific subdomain (uwo.scholaris.ca) on a vendor platform (scholaris.ca,
+      operated by Scholars Portal / OCUL). Western's repository name and admin email; Scholars
+      Portal's host, software and contract.
+    x-vendor: Scholars Portal (Ontario Council of University Libraries) — DSpace 8.4
+    properties:
+      - type: Documentation
+        url: https://uwo.scholaris.ca/home
+      - type: APIReference
+        url: https://uwo.scholaris.ca/server/api
+  - aid: western:scholaris-oai-pmh
+    name: Scholarship@Western OAI-PMH 2.0 provider (tenant)
+    description: >-
+      OAI-PMH 2.0 metadata harvesting for Western University's Open Repository. Identify
+      returns repositoryName "Western University's Open Repository", repositoryIdentifier
+      uwo.scholaris.ca, adminEmail rsclib@uwo.ca, earliestDatestamp 2025-05-27T13:31:41Z,
+      deletedRecord transient, granularity YYYY-MM-DDThh:mm:ssZ. ListMetadataFormats returns
+      thirteen prefixes — didl, mods, ore, mets, xoai, dim, rioxx, uketd_dc, qdc, oai_dc, rdf,
+      marc, etdms — and ListSets returns DSpace community and collection sets under handle
+      prefix 20.500.14721. This is the surface that satisfies the `oai-pmh` domain standard in
+      the Kin Score education regime, and it was documented in this repository's README but
+      never recorded as an API entry until now.
+    humanURL: https://www.lib.uwo.ca/scholarship/scholarshipatwestern.html
+    baseURL: https://uwo.scholaris.ca/server/oai/request
+    tags:
+    - OAI-PMH
+    - Metadata Harvesting
+    - Research Repository
+    - Open Access
+    - DSpace
+    x-operator: tenant
+    x-operator-evidence: >-
+      Same host and same operator as the DSpace REST API above — Western's repository running
+      on Scholars Portal's national Scholaris service. The OAI implementation is DSpace's.
+    x-vendor: Scholars Portal (Ontario Council of University Libraries) — DSpace 8.4
+    properties:
+      - type: Examples
+        url: examples/western-scholaris-oai-identify-example.xml
+      - type: Conformance
+        url: conformance/western-conformance.yml
+  - aid: western:borealis-dataverse
+    name: Western University Repository on Borealis — Dataverse API (tenant)
+    description: >-
+      Western's research data repository, a Dataverse collection with alias "westernu" and
+      affiliation "Western University" on Borealis, the Canadian Dataverse Repository operated
+      by Scholars Portal. Reachable through the Dataverse 6.8.4 native API at
+      https://borealisdata.ca/api/dataverses/westernu, which returns the collection metadata
+      and, at /contents, the sub-collections beneath it — including the Western University
+      Research Data Repository Dataverse, CFMM, OwenLab and Geomorphology @ Western. A
+      subtree search returns 1,504 datasets, each carrying a DataCite DOI on prefix 10.5683.
+      Deposit is arranged through rdm@uwo.ca. Recorded as a tenant relationship and previously
+      absent from this profile entirely.
+    humanURL: https://borealisdata.ca/dataverse/westernu
+    baseURL: https://borealisdata.ca/api/dataverses/westernu
+    tags:
+    - Research Data
+    - Dataverse
+    - DataCite
+    - Open Data
+    - Research Repository
+    x-operator: tenant
+    x-operator-evidence: >-
+      Institution-specific account (dataverse alias "westernu", affiliation "Western
+      University") on a shared vendor platform (borealisdata.ca, operated by Scholars Portal).
+      The DataCite prefix 10.5683 used by its DOIs belongs to Scholars Portal, not to Western.
+    x-vendor: Scholars Portal / Borealis — Dataverse 6.8.4
+    properties:
+      - type: Documentation
+        url: https://guides.lib.uwo.ca/rdm
+      - type: Conformance
+        url: conformance/western-conformance.yml
+  - aid: western:omni-primo
+    name: Omni library discovery — Ex Libris Primo VE (tenant)
+    description: >-
+      Western Libraries' discovery layer is Omni, the Ontario Council of University Libraries'
+      shared Ex Libris Alma/Primo VE deployment. Western's view is
+      ocul-uwo.primo.exlibrisgroup.com with vid=01OCUL_UWO:UWO_DEFAULT. Recorded so the
+      relationship is visible, but no contract is saved: the Primo and Alma APIs are Ex Libris
+      products documented on developers.exlibrisgroup.com, shared by every Alma customer, and
+      crediting them to Western would be the exact misattribution this profile guards against.
+    humanURL: https://ocul-uwo.primo.exlibrisgroup.com/discovery/search?vid=01OCUL_UWO:UWO_DEFAULT
+    tags:
+    - Library
+    - Discovery
+    - Primo
+    - Ex Libris
+    - Catalog
+    x-operator: tenant
+    x-operator-evidence: >-
+      Institution-specific subdomain and view id on a generic vendor host
+      (primo.exlibrisgroup.com). The platform is Ex Libris's, the consortial tenancy is OCUL's,
+      the view is Western's.
+    x-vendor: Ex Libris (Clarivate) via the Ontario Council of University Libraries
+    properties:
+      - type: Documentation
+        url: https://www.lib.uwo.ca/
 common:
-  - type: DomainSecurity
-    url: security/western-domain-security.yml
   - type: Website
     url: https://www.uwo.ca/
+  - type: Documentation
+    url: https://wts.uwo.ca/services/index.html
+  - type: Support
+    url: https://wts.uwo.ca/
+  - type: PrivacyPolicy
+    url: https://www.uwo.ca/legalcounsel/privacy/
   - type: LinkedIn
     url: https://ca.linkedin.com/school/westernuniversity/
   - type: Twitter
     url: https://x.com/westernu
+  - type: Blog
+    url: https://news.westernu.ca/
+  - type: BlogRSS
+    url: https://news.westernu.ca/feed
+  - type: IdentityFederation
+    url: https://ssocas.uwo.ca/cas/idp/metadata
+  - type: ResearchRepository
+    url: https://uwo.scholaris.ca/home
+  - type: LibraryCatalog
+    url: https://ocul-uwo.primo.exlibrisgroup.com/discovery/search?vid=01OCUL_UWO:UWO_DEFAULT
+  - type: CourseCatalog
+    url: https://westerncalendar.uwo.ca/
+  - type: AIPolicy
+    url: https://ai.uwo.ca/governance/policies.html
+  - type: AITooling
+    url: https://ai.uwo.ca/resources/ai-tools.html
   - type: Authentication
-    url: https://wts.uwo.ca/services/o/single-sign-on-sso-saml2-oauth-oidc-cas/index.html
+    url: authentication/western-authentication.yml
+  - type: Conformance
+    url: conformance/western-conformance.yml
+  - type: Examples
+    url: examples/western-shibboleth-idp-caf-metadata-example.xml
+  - type: JSONLD
+    url: json-ld/western-context.jsonld
+  - type: DomainSecurity
+    url: security/western-domain-security.yml
   - type: Plans
     url: plans/western-plans-pricing.yml
   - type: RateLimits
@@ -114,8 +370,6 @@ common:
     url: finops/western-finops.yml
   - type: Review
     url: review.yml
-  - type: About
-    url: https://uwo.scholaris.ca/home
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
