@@ -142,6 +142,13 @@ apis:
     - Shibboleth
     - eduGAIN
     - CANARIE
+    - SSO
+    tags_raw:
+    - Identity Federation
+    - SAML
+    - Shibboleth
+    - eduGAIN
+    - CANARIE
     - Single Sign-On
     x-operator: institution
     x-operator-evidence: >-
