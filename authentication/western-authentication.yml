@@ -1,0 +1,119 @@
+generated: '2026-08-30'
+method: probed
+source: https://wts.uwo.ca/services/o/single-sign-on-sso-saml2-oauth-oidc-cas/index.html
+x-operator: institution
+summary:
+  types:
+  - saml2
+  - cas
+  - oauth2
+  - oidc
+  api_key_in: []
+  oauth2_flows: []
+  note: >-
+    Western has one institutional authentication estate and no developer authorization surface
+    at all. Western Technology Services runs two federation servers: an Apereo CAS server at
+    ssocas.uwo.ca that also emits a SAML IdP descriptor and speaks the CAS protocol, and a
+    Shibboleth Identity Provider at shibidp.uwo.ca that is the entity actually registered in
+    the Canadian Access Federation and exported to eduGAIN. Both are end-user login
+    federations. Neither publishes a client-registration path, a token endpoint, a scope
+    catalogue or a consent screen an outside developer could integrate against — WTS documents
+    integration as a request-based process gated behind institutional affiliation. OIDC is
+    advertised in the service catalogue but its discovery document is refused (HTTP 403), so
+    no OIDC surface is publicly usable. The two publicly readable data surfaces on this profile
+    (Scholaris and Borealis) are vendor platforms with their own authentication, recorded under
+    their own operators rather than here.
+schemes:
+- name: WesternShibbolethIdP
+  type: saml2
+  applies_to: https://shibidp.uwo.ca/idp/shibboleth
+  issuance: >-
+    Service-provider registration through the Canadian Access Federation (CANARIE) or by
+    request to Western Technology Services. Not self-serve.
+  cost: free to federated partners
+  purpose: >-
+    Federated single sign-on for Western staff, faculty and students into institutional and
+    third-party research and scholarship services.
+  evidence: >-
+    entityID https://shibidp.uwo.ca/idp/shibboleth present in the CAF signed metadata
+    aggregate with mdui:DisplayName "University of Western Ontario", shibmd:Scope uwo.ca,
+    registrationAuthority http://www.canarie.ca, registrationInstant 2012-01-01T17:18:00Z.
+    Declares the REFEDS Research and Scholarship entity category and the REFEDS Sirtfi
+    assurance certification. Bindings: HTTP-POST, HTTP-POST-SimpleSign, HTTP-Redirect, plus
+    SOAP artifact resolution and attribute query on :8443. Live probe:
+    https://shibidp.uwo.ca/idp/profile/SAML2/Redirect/SSO returns HTTP 400 to a bare GET;
+    https://shibidp.uwo.ca/idp/status returns HTTP 403.
+  rotation: Key rollover is managed through the federation aggregate; no public schedule.
+  scopes: none
+  developer_usable: false
+- name: WesternCASProtocol
+  type: cas
+  applies_to: https://ssocas.uwo.ca/cas
+  issuance: Service registration by request to Western Technology Services. Not self-serve.
+  cost: free to affiliated services
+  purpose: Ticket-based single sign-on for Western web applications.
+  evidence: >-
+    GET https://ssocas.uwo.ca/cas/login returns HTTP 200 with the Western login form. GET
+    https://ssocas.uwo.ca/cas/p3/serviceValidate returns HTTP 200 with a well-formed CAS 3.0
+    protocol response — <cas:serviceResponse><cas:authenticationFailure code="INVALID_REQUEST">
+    — confirming a live, publicly reachable CAS validation endpoint. GET
+    https://ssocas.uwo.ca/cas/actuator returns HTTP 200 with a Spring Boot actuator link
+    document exposing self and health.
+  rotation: Not documented.
+  scopes: none
+  developer_usable: false
+- name: WesternCASSamlDescriptor
+  type: saml2
+  applies_to: https://ssocas.uwo.ca/cas/idp/metadata
+  issuance: Not self-serve.
+  cost: free to affiliated services
+  purpose: SAML 2.0 identity provider descriptor emitted by the CAS server.
+  evidence: >-
+    HTTP 200, 7,167 bytes, EntityDescriptor / IDPSSODescriptor with
+    protocolSupportEnumeration for SAML 2.0, SAML 1.1 and urn:mace:shibboleth:1.0,
+    shibmd:Scope uwo.ca and an X.509 signing certificate CN=ssocas.uwo.ca valid
+    2025-06-07 to 2045-06-07.
+  rotation: Certificate valid to 2045-06-07; no rotation policy published.
+  scopes: none
+  developer_usable: false
+  caveat: >-
+    entityID is the stock Apereo CAS placeholder https://cas.example.org/idp. The descriptor is
+    live and correctly scoped to uwo.ca but its entityID was never configured, and it is not
+    the entity registered in the Canadian Access Federation.
+- name: WesternOIDC
+  type: oidc
+  applies_to: https://ssocas.uwo.ca/cas/oidc
+  issuance: Request-based through Western Technology Services.
+  cost: free to affiliated services
+  purpose: OpenID Connect authentication for affiliated Western services.
+  evidence: >-
+    WTS advertises OIDC in its SSO service catalogue, but the discovery document is not
+    publicly served: GET https://ssocas.uwo.ca/cas/oidc/.well-known/openid-configuration
+    returns HTTP 403 {"status":403,"error":"Forbidden"} and
+    https://ssocas.uwo.ca/cas/oidc/jwks returns HTTP 403.
+    https://ssocas.uwo.ca/.well-known/openid-configuration returns HTTP 404.
+  rotation: Not documented.
+  scopes: not published
+  developer_usable: false
+  claimed_but_unverifiable: true
+negative_probes:
+- url: https://ssocas.uwo.ca/cas/oidc/.well-known/openid-configuration
+  status: 403
+  note: OIDC discovery refused; advertised capability, no public metadata.
+- url: https://ssocas.uwo.ca/cas/oidc/jwks
+  status: 403
+  note: JWKS refused.
+- url: https://ssocas.uwo.ca/.well-known/openid-configuration
+  status: 404
+- url: https://ssocas.uwo.ca/idp/shibboleth
+  status: 404
+  note: The Shibboleth entityID path is not on the CAS host; the real IdP is shibidp.uwo.ca.
+- url: https://shibidp.uwo.ca/idp/shibboleth
+  status: 404
+  note: >-
+    Metadata is published through the CAF aggregate rather than at the entityID URL. Normal
+    Shibboleth behaviour — the entityID is an identifier, not a required document location.
+- url: https://www.uwo.ca/.well-known/security.txt
+  status: 404
+- url: https://www.uwo.ca/llms.txt
+  status: 404

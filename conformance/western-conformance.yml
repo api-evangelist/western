@@ -1,0 +1,145 @@
+generated: '2026-08-30'
+method: probed
+source: https://www.uwo.ca/
+x-operator: institution
+note: >-
+  Domain-standard conformance for the Kin Score `education` regulatory regime, probed live
+  against Western University hosts and against the federation and repository platforms Western
+  is a tenant of, on 2026-08-30. Every `conforms: true` below points at a specific response
+  actually received, never at a prose claim on a web page. Each entry carries its own
+  `operator`, because for a university the standard is frequently satisfied by a platform the
+  institution buys rather than by the institution's own engineering — `institution` means
+  Western runs the endpoint, `tenant` means Western owns the account and the content but a
+  vendor wrote and runs the contract. Standards Western does not expose are recorded as false
+  with the negative probe that established it. Reward-only: nothing was invented to fill a slot.
+regime:
+  id: education
+  name: Education & Research
+  matched_via: tags
+domain_standards:
+- id: saml
+  conforms: true
+  version: '2.0'
+  operator: institution
+  evidence: >-
+    Western operates a SAML 2.0 Identity Provider with entityID
+    https://shibidp.uwo.ca/idp/shibboleth, published in the Canadian Access Federation signed
+    metadata aggregate (202 entities; exactly one carries a uwo.ca entityID) with
+    mdui:DisplayName "University of Western Ontario", shibmd:Scope uwo.ca and
+    registrationAuthority http://www.canarie.ca, registered 2012-01-01. SSO endpoints are
+    declared for HTTP-POST, HTTP-POST-SimpleSign and HTTP-Redirect, with SOAP artifact
+    resolution and attribute query on port 8443. shibidp.uwo.ca resolves (129.100.0.35) and
+    /idp/profile/SAML2/Redirect/SSO answers 400 to a bare GET — a live protocol endpoint
+    rejecting a malformed request, not a dead host. A second, separately operated SAML IdP
+    descriptor is served by Western's Apereo CAS server at
+    https://ssocas.uwo.ca/cas/idp/metadata (HTTP 200, 7,167 bytes, IDPSSODescriptor,
+    shibmd:Scope uwo.ca, X.509 signing certificate CN=ssocas.uwo.ca valid 2025-06-07 to
+    2045-06-07).
+  evidence_url: https://caf-shib2ops.ca/CoreServices/caf_metadata_signed_sha256.xml
+  artifact: examples/western-shibboleth-idp-caf-metadata-example.xml
+  caveat: >-
+    The CAS-served descriptor at ssocas.uwo.ca ships the stock Apereo CAS placeholder
+    entityID "https://cas.example.org/idp" — it is live and correctly scoped to uwo.ca but its
+    entityID has never been configured, and it is not the entity registered in the federation.
+- id: shibboleth
+  conforms: true
+  version: SAML2 profile, Shibboleth metadata extensions
+  operator: institution
+  evidence: >-
+    The federated entity is a Shibboleth IdP: it carries the Shibboleth metadata extension
+    namespace urn:mace:shibboleth:metadata:1.0 with shibmd:Scope uwo.ca, advertises
+    urn:mace:shibboleth:1.0 in protocolSupportEnumeration and exposes the Shibboleth
+    AuthnRequest binding at https://shibidp.uwo.ca/idp/profile/Shibboleth/SSO. It declares
+    support for the REFEDS Research and Scholarship entity category
+    (http://refeds.org/category/research-and-scholarship) and asserts the REFEDS Sirtfi
+    assurance certification (https://refeds.org/sirtfi), and it is exported to eduGAIN in
+    CAF's interfederation aggregate (edugain_caf_metadata_signed_sha256.xml, 124 entities).
+  evidence_url: https://caf-shib2ops.ca/CoreServices/edugain_caf_metadata_signed_sha256.xml
+  artifact: examples/western-shibboleth-idp-caf-metadata-example.xml
+- id: oai-pmh
+  conforms: true
+  version: '2.0'
+  operator: tenant
+  evidence: >-
+    GET https://uwo.scholaris.ca/server/oai/request?verb=Identify returns HTTP 200 XML with
+    repositoryName "Western University's Open Repository", repositoryIdentifier
+    uwo.scholaris.ca, protocolVersion 2.0, adminEmail rsclib@uwo.ca, earliestDatestamp
+    2025-05-27T13:31:41Z, deletedRecord transient, granularity YYYY-MM-DDThh:mm:ssZ.
+    ListMetadataFormats returns thirteen prefixes — didl, mods, ore, mets, xoai, dim, rioxx,
+    uketd_dc, qdc, oai_dc, rdf, marc, etdms. ListSets returns DSpace community and collection
+    sets under handle prefix 20.500.14721.
+  evidence_url: https://uwo.scholaris.ca/server/oai/request?verb=Identify
+  artifact: examples/western-scholaris-oai-identify-example.xml
+  caveat: >-
+    Tenant, not institution. The endpoint is Western's repository on Scholaris, the national
+    shared DSpace 8.4 service operated by Scholars Portal (Ontario Council of University
+    Libraries). Western owns the content and the admin contact; the OAI implementation is
+    DSpace's and the host is Scholars Portal's.
+- id: datacite
+  conforms: true
+  version: DOI registration via DataCite prefix 10.5683
+  operator: tenant
+  evidence: >-
+    Western's research data collection on Borealis (the Canadian Dataverse Repository) holds
+    1,504 datasets, every sampled one carrying a DataCite DOI on prefix 10.5683 — for example
+    doi:10.5683/SP3/PWONIY, doi:10.5683/SP3/IWSDAX, doi:10.5683/SP3/SAKC2C. The prefix
+    resolves at https://api.datacite.org/prefixes/10.5683 (HTTP 200, created 2011-09-19).
+  evidence_url: https://borealisdata.ca/api/search?q=*&subtree=westernu&type=dataset
+  caveat: >-
+    The DataCite prefix 10.5683 belongs to Scholars Portal, not to Western. Western mints DOIs
+    through the platform's membership; it is not a DataCite member in its own right, and no
+    Western-owned prefix was found.
+- id: orcid
+  conforms: false
+  operator: tenant
+  evidence: >-
+    GET https://uwo.scholaris.ca/server/api/config/properties/orcid.application-client-id
+    returns HTTP 200 with an empty `values` array — the DSpace ORCID integration exists in the
+    software but is not configured on Western's Scholaris instance. No ORCID member API
+    credential, ORCID-linked author profile or ORCID claim surface was found on any uwo.ca host.
+  evidence_url: https://uwo.scholaris.ca/server/api/config/properties/orcid.application-client-id
+- id: crossref
+  conforms: false
+  operator: none
+  evidence: >-
+    No Crossref member record or Crossref DOI prefix was found for Western University. Items in
+    Scholarship@Western are identified by Handle under prefix 20.500.14721 (Scholars Portal's),
+    not by Crossref DOI; research data DOIs are DataCite, not Crossref.
+- id: scim
+  conforms: false
+  operator: none
+  evidence: >-
+    No SCIM 2.0 provisioning endpoint is publicly exposed. /scim/v2, /ServiceProviderConfig and
+    /.well-known/scim-configuration were not reachable on any uwo.ca host, and Western's WTS
+    service catalogue documents no provisioning API.
+- id: lti
+  conforms: false
+  operator: vendor
+  evidence: >-
+    Western's LMS is OWL Brightspace (D2L). LTI 1.3 / Advantage support is a property of the
+    D2L platform, not a Western-published surface — no LTI tool registration endpoint,
+    platform configuration document or JWKS is published on a uwo.ca host. Recorded false
+    because crediting the institution for its LMS vendor's protocol support is exactly the
+    misattribution this profile exists to prevent.
+- id: oneroster
+  conforms: false
+  operator: none
+  evidence: No OneRoster 1.1/1.2 endpoint or CSV bulk export is published on any uwo.ca host.
+- id: ed-fi
+  conforms: false
+  operator: none
+  evidence: >-
+    Ed-Fi is a US K-12 data standard with no Canadian higher-education deployment; no Ed-Fi ODS
+    or API is published by Western.
+- id: caliper
+  conforms: false
+  operator: none
+  evidence: >-
+    No IMS Caliper Analytics sensor, event store or endpoint is published or documented on any
+    uwo.ca host.
+- id: qti
+  conforms: false
+  operator: none
+  evidence: >-
+    No QTI item bank, package export or assessment interoperability endpoint is published or
+    documented on any uwo.ca host.

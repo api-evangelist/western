@@ -64,26 +64,33 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Western University is a public research university in London, Ontario, Canada, ranked #120 in the QS World University Rankings 2025. This repository catalogs Western's public developer and API footprint as an [APIs.json](https://apisjson.org) profile. Western's machine-readable surface is centered on Western Libraries — the Scholarship@Western institutional repository, which migrated in 2025 to the national Scholaris DSpace 8 service (live REST API + OAI-PMH) — plus an affiliation-gated institutional Single Sign-On service from Western Technology Services.
+Western University is a public research university in London, Ontario, Canada, ranked #120 in the QS World University Rankings 2025. This repository catalogs Western's public developer and API footprint as an [APIs.json](https://apisjson.org) profile. Western is a federation of buyers, not an API producer: the one class of machine-readable surface it operates itself is **identity** — a Shibboleth Identity Provider registered in the Canadian Access Federation and exported to eduGAIN, plus an Apereo CAS server with a live CAS 3.0 validation endpoint. Everything else readable here is a **tenancy** on a platform someone else runs — Scholarship@Western on Scholars Portal's national Scholaris DSpace service, Western's research data on Borealis, and library discovery on OCUL's shared Ex Libris Primo VE — recorded as relationships, with no vendor contract saved under Western's name.
 
 - APIs.json: https://raw.githubusercontent.com/api-evangelist/western/refs/heads/main/apis.yml
 - Run with Naftiko: https://github.com/naftiko/fleet?utm_source=api-evangelist&utm_medium=readme&utm_campaign=western-api-evangelist&utm_content=repo
 
 ## Type
 
+- **Class:** university (`x-type: university`)
+- **Category:** Public Research University
 - **Type:** Index
 - **Position:** Consumer
 - **Access:** 3rd-Party
 
 ## Tags
 
-Education, Higher Education, University, Canada, Library, Institutional Repository, Open Access, Identity
+University, Higher Education, Education, Research, Canada, Ontario, U15, Identity Federation, Research Repository, Research Data, Open Access, OAI-PMH, Library
 
 ## APIs
 
-- **Scholaris (Scholarship@Western) DSpace REST API** — DSpace 8.3 REST (HAL) API for Western's Open Repository. Docs: https://uwo.scholaris.ca/home · API root: https://uwo.scholaris.ca/server/api
-- **Scholarship@Western OAI-PMH** — OAI-PMH 2.0 metadata harvesting for the institutional repository. Endpoint: https://uwo.scholaris.ca/server/oai/request?verb=Identify · Docs: https://ir.lib.uwo.ca/about.html
-- **Western Single Sign-On (SAML2 / OAuth / OIDC / CAS)** — WTS institutional SSO; request-based and affiliation-gated. Docs: https://wts.uwo.ca/services/o/single-sign-on-sso-saml2-oauth-oidc-cas/index.html
+Every surface carries an `x-operator`: **institution** means Western runs the thing the contract describes, **tenant** means Western owns the account and the content but a vendor wrote and runs the contract.
+
+- **Western University Shibboleth Identity Provider (SAML 2.0)** — *institution*. entityID `https://shibidp.uwo.ca/idp/shibboleth`, registered in the Canadian Access Federation by CANARIE since 2012, exported to eduGAIN, declaring REFEDS Research & Scholarship and Sirtfi. Metadata: https://caf-shib2ops.ca/CoreServices/caf_metadata_signed_sha256.xml
+- **Western Single Sign-On (Apereo CAS — CAS 3.0, SAML2, OIDC)** — *institution*. https://ssocas.uwo.ca/cas · SAML descriptor https://ssocas.uwo.ca/cas/idp/metadata · OIDC advertised but discovery returns 403.
+- **Scholarship@Western on Scholaris — DSpace REST API** — *tenant* (Scholars Portal / OCUL, DSpace 8.4). https://uwo.scholaris.ca/server/api
+- **Scholarship@Western OAI-PMH 2.0** — *tenant*. https://uwo.scholaris.ca/server/oai/request?verb=Identify · 13 metadata formats.
+- **Western University Repository on Borealis — Dataverse API** — *tenant* (Scholars Portal, Dataverse 6.8.4). https://borealisdata.ca/api/dataverses/westernu · 1,504 datasets, DataCite DOIs on prefix 10.5683.
+- **Omni library discovery — Ex Libris Primo VE** — *tenant* (Ex Libris via OCUL). No contract saved.
 
 ## Plans, Rate Limits, and FinOps
 
@@ -94,18 +101,41 @@ Education, Higher Education, University, Canada, Library, Institutional Reposito
 ## Timestamps
 
 - **Created:** 2026-06-03
-- **Modified:** 2026-06-03
+- **Modified:** 2026-08-30
 
 ## Common Properties
 
 - Website: https://www.uwo.ca/
+- Documentation: https://wts.uwo.ca/services/index.html
+- Support: https://wts.uwo.ca/
+- Privacy Policy: https://www.uwo.ca/legalcounsel/privacy/
+- Blog: https://news.westernu.ca/ · RSS: https://news.westernu.ca/feed
 - LinkedIn: https://ca.linkedin.com/school/westernuniversity/
 - Twitter/X: https://x.com/westernu
-- Authentication: https://wts.uwo.ca/services/o/single-sign-on-sso-saml2-oauth-oidc-cas/index.html
+- Identity Federation: https://ssocas.uwo.ca/cas/idp/metadata
+- Research Repository: https://uwo.scholaris.ca/home
+- Library Catalog: https://ocul-uwo.primo.exlibrisgroup.com/discovery/search?vid=01OCUL_UWO:UWO_DEFAULT
+- Course Catalog: https://westerncalendar.uwo.ca/
+- AI Policy: https://ai.uwo.ca/governance/policies.html
+- AI Tooling: https://ai.uwo.ca/resources/ai-tools.html
+- Authentication: [authentication/western-authentication.yml](authentication/western-authentication.yml)
+- Conformance: [conformance/western-conformance.yml](conformance/western-conformance.yml)
 
 ## Notes
 
-All APIs, endpoints, and properties listed here were verified live as of 2026-06-03; nothing was fabricated. The DSpace REST API root and OAI-PMH endpoint return valid responses (DSpace 8.3). Western does **not** publish an official open course/timetable or open-data API — timetable data is documented only as scrape targets with an unofficial third-party API on GitHub. There is **no** official Western University GitHub organization (the `uwo` GitHub account is an unrelated personal user), so no GitHub common property is listed. The SSO service is documented but request-based and gated behind institutional affiliation. See [review.yml](review.yml) for per-endpoint verification details.
+Re-profiled 2026-08-30 under the API Evangelist university pipeline, which settles **who operates each surface** before saving anything. Nothing was fabricated; every claim above is backed by a live probe recorded in [conformance/western-conformance.yml](conformance/western-conformance.yml), [authentication/western-authentication.yml](authentication/western-authentication.yml) and the `x-coverage` block in `apis.yml`.
+
+What changed from the 2026-06-03 profile:
+
+- **Found:** Western's Shibboleth IdP in the Canadian Access Federation aggregate — the most consequential machine-readable surface Western publishes, and absent from the original profile.
+- **Found:** Western's 1,504-dataset research data collection on Borealis, absent from the original profile.
+- **Recorded:** the OAI-PMH provider as an API entry (it was documented in this README but never in `apis.yml`).
+- **Relabelled:** Scholaris and Omni from implied Western surfaces to explicit **tenant** relationships.
+- **Corrected:** Scholaris reports DSpace **8.4**, not 8.3.
+
+Deliberate exclusions: `api.uwo.ca` and `developer.uwo.ca` do not resolve. `data.uwo.ca` resolves but redirects to the Office of Institutional Planning & Budgeting — HTML dashboards, no API — so it is not recorded as an open-data surface. The GitHub organisations `western-university` and `uwo-ca` both exist but hold zero public repositories and no identifying metadata, so neither can be attributed to Western and no GitHub pointer is emitted. There is no official course, timetable or open-data API: `westerncalendar.uwo.ca` blocks ClaudeBot, GPTBot, PerplexityBot, OAI-SearchBot, Applebot, Amazonbot, Googlebot and bingbot in `robots.txt`, the undergraduate timetable is scrape-only, and the only APIs over that data are unofficial student projects on non-Western domains that Western does not endorse. Western serves no `llms.txt` and no `.well-known/security.txt`. ORCID integration is present in the DSpace software but unconfigured on Western's instance.
+
+See [review.yml](review.yml) for the 2026-06-03 per-endpoint verification.
 
 ## Maintainers
 
