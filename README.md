@@ -1,4 +1,4 @@
-# Western University (western)
+# Western University
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -64,79 +64,117 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Western University is a public research university in London, Ontario, Canada, ranked #120 in the QS World University Rankings 2025. This repository catalogs Western's public developer and API footprint as an [APIs.json](https://apisjson.org) profile. Western is a federation of buyers, not an API producer: the one class of machine-readable surface it operates itself is **identity** — a Shibboleth Identity Provider registered in the Canadian Access Federation and exported to eduGAIN, plus an Apereo CAS server with a live CAS 3.0 validation endpoint. Everything else readable here is a **tenancy** on a platform someone else runs — Scholarship@Western on Scholars Portal's national Scholaris DSpace service, Western's research data on Borealis, and library discovery on OCUL's shared Ex Libris Primo VE — recorded as relationships, with no vendor contract saved under Western's name.
+Western University is a public research university in London, Ontario, Canada, ranked #120 in the QS World University Rankings order used by this cohort. Like almost every university, Western is a federation of buyers rather than an API producer: it runs no developer portal, no institutional API gateway (api.uwo.ca and developer.uwo.ca do not resolve), publishes no OpenAPI for anything, and serves no llms.txt or security.txt. What it genuinely operates is identity. Western Technology Services runs a Shibboleth Identity Provider, entityID https://shibidp.uwo.ca/idp/shibboleth, registered in the Canadian Access Federation since 2012 under CANARIE and exported to eduGAIN, declaring the REFEDS Research and Scholarship entity category and Sirtfi assurance — machine-readable SAML 2.0 metadata that is the single most consequential surface Western publishes. Alongside it runs an Apereo CAS server at ssocas.uwo.ca with a live CAS 3.0 validation endpoint and a second SAML descriptor whose entityID is still the stock Apereo placeholder. Both are end-user login federations, not developer authorization surfaces; OIDC is advertised by WTS but its discovery document returns 403. Western's two readable data surfaces are tenancies, not engineering: Scholarship@Western moved in 2025 to Scholaris, the national shared DSpace 8.4 service run by Scholars Portal (OCUL), exposing a HAL REST API and a conformant OAI-PMH 2.0 provider across thirteen metadata formats at uwo.scholaris.ca; and Western's research data lives in a 1,504-dataset collection on Borealis, the Canadian Dataverse Repository, minting DataCite DOIs on Scholars Portal's 10.5683 prefix. Library discovery is an Ex Libris Primo VE view on OCUL's shared platform. All four are recorded here as tenant relationships and deliberately not credited as Western engineering. There is no official course, timetable or open-data API: the academic calendar at westerncalendar.uwo.ca blocks every AI and search crawler in robots.txt, the undergraduate timetable is scrape-only, and the only APIs over that data are unofficial student projects on GitHub that Western does not endorse.
 
-- APIs.json: https://raw.githubusercontent.com/api-evangelist/western/refs/heads/main/apis.yml
-- Run with Naftiko: https://github.com/naftiko/fleet?utm_source=api-evangelist&utm_medium=readme&utm_campaign=western-api-evangelist&utm_content=repo
+**Areas:** University · Higher Education · Education · Research · Canada · Ontario · U15 · Identity Federation · Research Repository · Research Data · Open Access · OAI-PMH
 
-## Type
+## Western University on APIs.io
 
-- **Class:** university (`x-type: university`)
-- **Category:** Public Research University
-- **Type:** Index
-- **Position:** Consumer
-- **Access:** 3rd-Party
+Everything profiled for Western University is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/western/](https://apis.io/providers/western/)** — or go straight to one of the APIs or properties below.
 
-## Tags
+### APIs (6)
 
-University, Higher Education, Education, Research, Canada, Ontario, U15, Identity Federation, Research Repository, Research Data, Open Access, OAI-PMH, Library
+- [Western University Shibboleth Identity Provider (SAML 2.0 metadata)](https://apis.io/apis/western/identity-federation/) — Western's institutional identity provider, publishing machine-readable SAML 2.0 metadata through the Canadian Access Federation. entityID…
+- [Western Single Sign-On (Apereo CAS — CAS 3.0, SAML2, OIDC)](https://apis.io/apis/western/sso-cas/) — Western Technology Services operates an Apereo CAS server at ssocas.uwo.ca. The CAS 3.0 protocol is publicly reachable — /cas/p3/serviceValidate returns a…
+- [Scholarship@Western on Scholaris — DSpace REST API (tenant)](https://apis.io/apis/western/scholaris-rest/) — The HAL+JSON REST API of Western University's Open Repository, reachable anonymously at https://uwo.scholaris.ca/server/api. The root document self-reports…
+- [Scholarship@Western OAI-PMH 2.0 provider (tenant)](https://apis.io/apis/western/scholaris-oai-pmh/) — OAI-PMH 2.0 metadata harvesting for Western University's Open Repository. Identify returns repositoryName "Western University's Open Repository",…
+- [Western University Repository on Borealis — Dataverse API (tenant)](https://apis.io/apis/western/borealis-dataverse/) — Western's research data repository, a Dataverse collection with alias "westernu" and affiliation "Western University" on Borealis, the Canadian Dataverse…
+- [Omni library discovery — Ex Libris Primo VE (tenant)](https://apis.io/apis/western/omni-primo/) — Western Libraries' discovery layer is Omni, the Ontario Council of University Libraries' shared Ex Libris Alma/Primo VE deployment. Western's view is…
 
-## APIs
+### Published properties
 
-Every surface carries an `x-operator`: **institution** means Western runs the thing the contract describes, **tenant** means Western owns the account and the content but a vendor wrote and runs the contract.
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-- **Western University Shibboleth Identity Provider (SAML 2.0)** — *institution*. entityID `https://shibidp.uwo.ca/idp/shibboleth`, registered in the Canadian Access Federation by CANARIE since 2012, exported to eduGAIN, declaring REFEDS Research & Scholarship and Sirtfi. Metadata: https://caf-shib2ops.ca/CoreServices/caf_metadata_signed_sha256.xml
-- **Western Single Sign-On (Apereo CAS — CAS 3.0, SAML2, OIDC)** — *institution*. https://ssocas.uwo.ca/cas · SAML descriptor https://ssocas.uwo.ca/cas/idp/metadata · OIDC advertised but discovery returns 403.
-- **Scholarship@Western on Scholaris — DSpace REST API** — *tenant* (Scholars Portal / OCUL, DSpace 8.4). https://uwo.scholaris.ca/server/api
-- **Scholarship@Western OAI-PMH 2.0** — *tenant*. https://uwo.scholaris.ca/server/oai/request?verb=Identify · 13 metadata formats.
-- **Western University Repository on Borealis — Dataverse API** — *tenant* (Scholars Portal, Dataverse 6.8.4). https://borealisdata.ca/api/dataverses/westernu · 1,504 datasets, DataCite DOIs on prefix 10.5683.
-- **Omni library discovery — Ex Libris Primo VE** — *tenant* (Ex Libris via OCUL). No contract saved.
+#### JSON-LD (1)
 
-## Plans, Rate Limits, and FinOps
+Linked-data contexts for the provider's vocabulary.
 
-- Plans & Pricing: [plans/western-plans-pricing.yml](plans/western-plans-pricing.yml)
-- Rate Limits: [rate-limits/western-rate-limits.yml](rate-limits/western-rate-limits.yml)
-- FinOps: [finops/western-finops.yml](finops/western-finops.yml)
+- [Western Context](https://apis.io/jsonld/western/western-context/)
 
-## Timestamps
+#### Security (2)
 
-- **Created:** 2026-06-03
-- **Modified:** 2026-08-30
+Authentication, trust centre, and vulnerability disclosure.
 
-## Common Properties
+- [Western Authentication](https://apis.io/security/western/western-authentication/)
+- [Western Domain Security](https://apis.io/security/western/western-domain-security/)
 
-- Website: https://www.uwo.ca/
-- Documentation: https://wts.uwo.ca/services/index.html
-- Support: https://wts.uwo.ca/
-- Privacy Policy: https://www.uwo.ca/legalcounsel/privacy/
-- Blog: https://news.westernu.ca/ · RSS: https://news.westernu.ca/feed
-- LinkedIn: https://ca.linkedin.com/school/westernuniversity/
-- Twitter/X: https://x.com/westernu
-- Identity Federation: https://ssocas.uwo.ca/cas/idp/metadata
-- Research Repository: https://uwo.scholaris.ca/home
-- Library Catalog: https://ocul-uwo.primo.exlibrisgroup.com/discovery/search?vid=01OCUL_UWO:UWO_DEFAULT
-- Course Catalog: https://westerncalendar.uwo.ca/
-- AI Policy: https://ai.uwo.ca/governance/policies.html
-- AI Tooling: https://ai.uwo.ca/resources/ai-tools.html
-- Authentication: [authentication/western-authentication.yml](authentication/western-authentication.yml)
-- Conformance: [conformance/western-conformance.yml](conformance/western-conformance.yml)
+#### Plans and pricing (1)
 
-## Notes
+Published plans, tiers and prices.
 
-Re-profiled 2026-08-30 under the API Evangelist university pipeline, which settles **who operates each surface** before saving anything. Nothing was fabricated; every claim above is backed by a live probe recorded in [conformance/western-conformance.yml](conformance/western-conformance.yml), [authentication/western-authentication.yml](authentication/western-authentication.yml) and the `x-coverage` block in `apis.yml`.
+- [Western Plans Pricing](https://apis.io/plans/western/western-plans-pricing/)
 
-What changed from the 2026-06-03 profile:
+#### Rate limits (1)
 
-- **Found:** Western's Shibboleth IdP in the Canadian Access Federation aggregate — the most consequential machine-readable surface Western publishes, and absent from the original profile.
-- **Found:** Western's 1,504-dataset research data collection on Borealis, absent from the original profile.
-- **Recorded:** the OAI-PMH provider as an API entry (it was documented in this README but never in `apis.yml`).
-- **Relabelled:** Scholaris and Omni from implied Western surfaces to explicit **tenant** relationships.
-- **Corrected:** Scholaris reports DSpace **8.4**, not 8.3.
+Published request limits.
 
-Deliberate exclusions: `api.uwo.ca` and `developer.uwo.ca` do not resolve. `data.uwo.ca` resolves but redirects to the Office of Institutional Planning & Budgeting — HTML dashboards, no API — so it is not recorded as an open-data surface. The GitHub organisations `western-university` and `uwo-ca` both exist but hold zero public repositories and no identifying metadata, so neither can be attributed to Western and no GitHub pointer is emitted. There is no official course, timetable or open-data API: `westerncalendar.uwo.ca` blocks ClaudeBot, GPTBot, PerplexityBot, OAI-SearchBot, Applebot, Amazonbot, Googlebot and bingbot in `robots.txt`, the undergraduate timetable is scrape-only, and the only APIs over that data are unofficial student projects on non-Western domains that Western does not endorse. Western serves no `llms.txt` and no `.well-known/security.txt`. ORCID integration is present in the DSpace software but unconfigured on Western's instance.
+- [Western Rate Limits](https://apis.io/rate-limits/western/western-rate-limits/)
 
-See [review.yml](review.yml) for the 2026-06-03 per-endpoint verification.
+#### FinOps (1)
 
-## Maintainers
+What the API costs to run, by operation.
 
-- Kin Lane — kin@apievangelist.com
+- [Western Finops](https://apis.io/finops/western/western-finops/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://www.uwo.ca/)
+- [Documentation](https://wts.uwo.ca/services/index.html)
+- [Support](https://wts.uwo.ca/)
+- [Blog](https://news.westernu.ca/)
+- [Privacy policy](https://www.uwo.ca/legalcounsel/privacy/)
+
+## API Evangelist rating
+
+**Kin Score 23.8** — emerging · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 62.5 |
+| Contract quality | 20.4 |
+| Contract governance | 0.0 |
+| Operational transparency | 5.3 |
+| Developer ergonomics | 35.7 |
+| Access clarity | 15.8 |
+
+**Agent readiness 4.4** — human-only
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | — |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | — |
+| OpenAPI Examples | documented (partial credit) |
+| Rate Limit Signal | derived (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 28.4** — Education & Research
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/western/](https://apis.io/providers/western/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Western University: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/western/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
